@@ -6,30 +6,26 @@ WordPress with MySQL on AWS Using Kubernetes
 
 This guide demonstrates how to deploy a WordPress site with a MySQL database on AWS using Kubernetes. The architecture leverages EC2 instances, EBS for MySQL persistence, EFS for shared storage for WordPress, and an Application Load Balancer (ALB) for high availability.
 Prerequisites
-
     AWS account with appropriate permissions.
     Kubernetes cluster (can be set up using EKS or manually).
     kubectl configured to interact with the cluster.
-
 Project Overview
-
     MySQL Database: Deployed with a single pod and persistent storage provided by EBS.
     WordPress Site: Deployed with shared storage provided by EFS, allowing multiple pods to access the data.
     High Availability: An Application Load Balancer (ALB) is used to distribute traffic to WordPress pods.
-
 Steps
 1. Set Up MySQL Database
-
     Create MySQL Secret:
         First, create an IAM user with the necessary permissions for EBS and EFS.
         Next, create a role that includes permissions for EBS and EFS, then attach this role to all nodes in the Kubernetes cluster.
         Store the IAM access key and secret access key in a Kubernetes secret for MySQL. This will allow your MySQL pod to authenticate and access AWS resources.
-
+![Screenshot (1652)](https://github.com/user-attachments/assets/0ed62ddb-88d9-40b4-86aa-6a159dd50492)
     Create a Storage Class for MySQL:
         Define the storage type as EBS and set volumeBindingMode to WaitForFirstConsumer. This ensures that the volume is only created when a pod is scheduled to use it.
 
     Create a Persistent Volume Claim (PVC):
-        Specify the desired storage capacity for MySQL (e.g., 10Gi) and link it to the previously created storage class (EBS).
+        Specify the desired storage capacity for MySQL (e.g., 5Gi) and link it to the previously created storage class (EBS).
+![Screenshot (1654)](https://github.com/user-attachments/assets/2b44f7fe-e9a3-4862-9ef8-a74b4366a55d)
 
     Create MySQL Deployment:
         Deploy a single MySQL pod using the PVC to persist data. The MySQL deployment should reference the secret for database credentials and mount the PVC to the appropriate directory in the container.
@@ -64,9 +60,11 @@ Steps
 
     Create a Target Group for WordPress:
         Set up a target group with port 80, and associate it with the LoadBalancer service created for WordPress. The target group will handle the routing of traffic to the WordPress pods.
+![Uploading Screenshot (1655).png…]()
 
     Attach the Target Group to the ALB:
         Link the target group to the ALB to enable traffic distribution to the WordPress pods.
+![Uploading Screenshot (1656).png…]()
 
 4. Verify Access
 
