@@ -60,11 +60,13 @@ Steps
 
     Create a Target Group for WordPress:
         Set up a target group with port 80, and associate it with the LoadBalancer service created for WordPress. The target group will handle the routing of traffic to the WordPress pods.
-![Uploading Screenshot (1655).png…]()
+![Screenshot (1655)](https://github.com/user-attachments/assets/74d3d20f-aaa5-4f7b-9dbd-5a892c78af8c)
+
 
     Attach the Target Group to the ALB:
         Link the target group to the ALB to enable traffic distribution to the WordPress pods.
 ![Uploading Screenshot (1656).png…]()
+
 
 4. Verify Access
 
